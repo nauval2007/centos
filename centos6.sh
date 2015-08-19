@@ -67,7 +67,7 @@ echo "screenfetch" >> .bashrc
 
 # install webserver
 cd
-wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/nauval2007/centos/master//nginx.conf"
+wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/nauval2007/centos/master/nginx.conf"
 sed -i 's/www-data/nginx/g' /etc/nginx/nginx.conf
 mkdir -p /home/vps/public_html
 echo "<pre>ShienIkiru server</pre>" > /home/vps/public_html/index.html
@@ -268,7 +268,7 @@ chkconfig crond on
 
 # info
 clear
-echo "cyber4rt | server |"
+echo "ShienVPS | server |"
 echo "==============================================="
 echo ""
 echo "Service"
