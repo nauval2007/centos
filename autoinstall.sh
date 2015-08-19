@@ -1,5 +1,7 @@
 #!/bin/bash
-
+# this script seem incomplete
+# no essential packaga
+# no openvpn
 # go to root
 cd
 
@@ -40,16 +42,16 @@ echo "/bin/false" >> /etc/shells
 service dropbear restart
 chkconfig dropbear on
 
-
+# https://raw.githubusercontent.com/nauval2007/centos/master/autoinstall.sh
 # install openvpn
-wget -O /etc/openvpn/openvpn.tar "https://raw.github.com/cyber4rt/installer/master/openvpn-debian.tar"
+wget -O /etc/openvpn/openvpn.tar "https://raw.githubusercontent.com/nauval2007/centos/master/openvpn-debian.tar"
 cd /etc/openvpn/
 tar xf openvpn.tar
-wget -O /etc/openvpn/1194.conf "https://raw.github.com/cyber4rt/installer/master/1194.conf"
+wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/nauval2007/centos/master/1194.conf"
 service openvpn restart
 sysctl -w net.ipv4.ip_forward=1
 sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
-wget -O /etc/iptables.up.rules "https://raw.github.com/cyber4rt/installer/master/iptables.up.rules"
+wget -O /etc/iptables.up.rules "https://raw.githubusercontent.com/nauval2007/centos/master/iptables.up.rules"
 sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
 sed -i $MYIP2 /etc/iptables.up.rules;
 iptables-restore < /etc/iptables.up.rules
@@ -57,7 +59,7 @@ service openvpn restart
 
 # configure openvpn client config
 cd /etc/openvpn/
-wget -O /etc/openvpn/1194-client.ovpn "https://raw.github.com/cyber4rt/installer/master/1194-client.conf"
+wget -O /etc/openvpn/1194-client.ovpn "https://raw.githubusercontent.com/nauval2007/centos/master/1194-client.conf"
 sed -i $MYIP2 /etc/openvpn/1194-client.ovpn;
 PASS=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 15 | head -n 1`;
 useradd -M -s /bin/false shien
@@ -69,24 +71,29 @@ cp client.tar /home/vps/public_html/
 cd
 
 # install badvpn
-wget -O /usr/bin/badvpn-udpgw "https://raw.github.com/cyber4rt/installer/master/badvpn-udpgw"
+wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/nauval2007/centos/master/badvpn-udpgw"
 if [ "$OS" == "x86_64" ]; then
-  wget -O /usr/bin/badvpn-udpgw "https://raw.github.com/cyber4rt/installer/master/badvpn-udpgw64"
+  wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/nauval2007/centos/master/badvpn-udpgw64"
 fi
 sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local
 chmod +x /usr/bin/badvpn-udpgw
 screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
 # install squid
 yum -y install squid
-wget -O /etc/squid/squid.conf "https://raw.github.com/cyber4rt/installer/master/squid3.conf"
+wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/nauval2007/centos/master/squid3.conf"
 sed -i $MYIP2 /etc/squid/squid.conf;
-service squid3 restart
+#service squid3 restart
+service squid3 stop
+chkconfig squid3 off
 
 # install webmin
 cd
-wget http://prdownloads.sourceforge.net/webadmin/webmin-1.680-1.noarch.rpm
-rpm -i webmin-1.680-1.noarch.rpm;
-rm webmin-1.680-1.noarch.rpm
+#wget http://prdownloads.sourceforge.net/webadmin/webmin-1.680-1.noarch.rpm
+yum -y install perl perl-Net-SSLeay openssl perl-IO-Tty 
+wget http://prdownloads.sourceforge.net/webadmin/webmin-1.760-1.noarch.rpm
+rpm -U webmin-1.760-1.noarch.rpm;
+#rpm -i webmin-1.680-1.noarch.rpm;
+rm webmin-1.760-1.noarch.rpm
 service webmin restart
 chkconfig webmin on
 
@@ -94,14 +101,14 @@ chkconfig webmin on
 cd
 
 cd
-wget -O speedtest_cli.py "https://raw.github.com/cyber4rt/installer/master/speedtest_cli.py"
-wget -O bench-network.sh "https://raw.github.com/cyber4rt/installer/master/bench-network.sh"
-wget -O ps_mem.py "https://raw.github.com/cyber4rt/installer/master/ps_mem.py"
-wget -O limit.sh "https://raw.github.com/cyber4rt/installer/master/limit.sh"
-wget -O dropmon "https://raw.github.com/cyber4rt/installer/master/dropmon"
-wget -O userlogin.sh "https://raw.github.com/cyber4rt/installer/master/userlogin.sh"
-wget -O userexpired.sh "https://raw.github.com/cyber4rt/installer/master/userexpired.sh"
-wget -O userlimit.sh "https://raw.github.com/cyber4rt/installer/master/userlimit.sh"
+wget -O speedtest_cli.py "https://raw.githubusercontent.com/nauval2007/centos/master/speedtest_cli.py"
+wget -O bench-network.sh "https://raw.githubusercontent.com/nauval2007/centos/master/bench-network.sh"
+wget -O ps_mem.py "https://raw.githubusercontent.com/nauval2007/centos/master/ps_mem.py"
+wget -O limit.sh "https://raw.githubusercontent.com/nauval2007/centos/master/limit.sh"
+wget -O dropmon "https://raw.githubusercontent.com/nauval2007/centos/master/dropmon"
+wget -O userlogin.sh "https://raw.githubusercontent.com/nauval2007/centos/master/userlogin.sh"
+wget -O userexpired.sh "https://raw.githubusercontent.com/nauval2007/centos/master/userexpired.sh"
+wget -O userlimit.sh "https://raw.githubusercontent.com/nauval2007/centos/master/userlimit.sh"
 echo "0 0 * * * root /root/userexpired.sh" > /etc/cron.d/userexpired
 echo "0 0 * * * root sleep 5 /root/userexpired.sh" > /etc/cron.d/userexpired
 echo "0 0 * * * root sleep 10 /root/userexpired.sh" > /etc/cron.d/userexpired
@@ -146,7 +153,7 @@ service snmpd restart
 service ssh restart
 service dropbear restart
 service fail2ban restart
-service squid3 restart
+service squid3 stop
 service webmin restart
 rm -rf ~/.bash_history && history -c
 echo "unset HISTFILE" >> /etc/profile

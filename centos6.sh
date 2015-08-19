@@ -67,26 +67,26 @@ echo "screenfetch" >> .bashrc
 
 # install webserver
 cd
-wget -O /etc/nginx/nginx.conf "https://raw.github.com/cyber4rt/installer/master//nginx.conf"
+wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/nauval2007/centos/master//nginx.conf"
 sed -i 's/www-data/nginx/g' /etc/nginx/nginx.conf
 mkdir -p /home/vps/public_html
-echo "<pre>Cyber4rt server</pre>" > /home/vps/public_html/index.html
+echo "<pre>ShienIkiru server</pre>" > /home/vps/public_html/index.html
 echo "<?php phpinfo(); ?>" > /home/vps/public_html/info.php
 rm /etc/nginx/conf.d/*
-wget -O /etc/nginx/conf.d/vps.conf "https://raw.github.com/cyber4rt/installer/master/vps.conf"
+wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/nauval2007/centos/master/vps.conf"
 sed -i 's/apache/nginx/g' /etc/php-fpm.d/www.conf
 chmod -R +rx /home/vps
 service php-fpm restart
 service nginx restart
 
 # install openvpn
-wget -O /etc/openvpn/openvpn.tar "https://raw.github.com/cyber4rt/installer/master/openvpn-debian.tar"
+wget -O /etc/openvpn/openvpn.tar "https://raw.githubusercontent.com/nauval2007/centos/master/openvpn-debian.tar"
 cd /etc/openvpn/
 tar xf openvpn.tar
-wget -O /etc/openvpn/1194.conf "https://raw.github.com/cyber4rt/installer/master/1194.conf"
+wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/nauval2007/centos/master/1194.conf"
 OS=`uname -p`;
 if [ "$OS" == "x86_64" ]; then
-  wget -O /etc/openvpn/1194.conf "https://raw.github.com/cyber4rt/installer/master/1194.conf"
+  wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/nauval2007/centos/master/1194.conf"
 fi
 wget -O /etc/iptables.up.rules "https://raw.github.com/arieonline/autoscript/master/conf/iptables.up.rules"
 sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
@@ -103,10 +103,10 @@ cd
 
 # configure openvpn client config
 cd /etc/openvpn/
-wget -O /etc/openvpn/1194-client.ovpn "https://raw.github.com/cyber4rt/installer/master/1194.conf"
+wget -O /etc/openvpn/1194-client.ovpn "https://raw.githubusercontent.com/nauval2007/centos/master/1194.conf"
 sed -i $MYIP2 /etc/openvpn/1194-client.ovpn;
 PASS=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 15 | head -n 1`;
-useradd -M -s /bin/false c-mp3nk
+useradd -M -s /bin/false shien
 echo "c-mp3nk:$PASS" | chpasswd
 echo "c-mp3nk" > pass.txt
 echo "$PASS" >> pass.txt
@@ -115,7 +115,7 @@ cp client.tar /home/vps/public_html/
 cd
 
 # install badvpn
-wget -O /usr/bin/badvpn-udpgw "https://raw.github.com/cyber4rt/installer/master/badvpn-udpgw"
+wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/nauval2007/centos/master/badvpn-udpgw"
 sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local
 sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.d/rc.local
 chmod +x /usr/bin/badvpn-udpgw
@@ -123,15 +123,15 @@ screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
 
 # install mrtg
 cd /etc/snmp/
-wget -O /etc/snmp/snmpd.conf "https://raw.github.com/cyber4rt/installer/master/snmpd.conf"
-wget -O /root/mrtg-mem.sh "https://raw.github.com/cyber4rt/installer/master/mrtg-mem.sh"
+wget -O /etc/snmp/snmpd.conf "https://raw.githubusercontent.com/nauval2007/centos/master/snmpd.conf"
+wget -O /root/mrtg-mem.sh "https://raw.githubusercontent.com/nauval2007/centos/master/mrtg-mem.sh"
 chmod +x /root/mrtg-mem.sh
 service snmpd restart
 chkconfig snmpd on
 snmpwalk -v 1 -c public localhost | tail
 mkdir -p /home/vps/public_html/mrtg
 cfgmaker --zero-speed 100000000 --global 'WorkDir: /home/vps/public_html/mrtg' --output /etc/mrtg/mrtg.cfg public@localhost
-curl "https://raw.github.com/cyber4rt/installer/master/mrtg.conf" >> /etc/mrtg/mrtg.cfg
+curl "https://raw.githubusercontent.com/nauval2007/centos/master/mrtg.conf" >> /etc/mrtg/mrtg.cfg
 sed -i 's/WorkDir: \/var\/www\/mrtg/# WorkDir: \/var\/www\/mrtg/g' /etc/mrtg/mrtg.cfg
 sed -i 's/# Options\[_\]: growright, bits/Options\[_\]: growright/g' /etc/mrtg/mrtg.cfg
 indexmaker --output=/home/vps/public_html/mrtg/index.html /etc/mrtg/mrtg.cfg
@@ -175,28 +175,35 @@ chkconfig fail2ban on
 
 # install squid
 yum -y install squid3
-wget -O /etc/squid/squid.conf "https://raw.github.com/cyber4rt/installer/master/squid3.conf"
+wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/nauval2007/centos/master/squid3.conf"
 sed -i $MYIP2 /etc/squid/squid.conf;
-service squid3 restart
-chkconfig squid on
+service squid3 stop
+chkconfig squid off
 
 # install webmin
 cd
-wget http://prdownloads.sourceforge.net/webadmin/webmin-1.680-1.noarch.rpm
-rpm -i webmin-1.680-1.noarch.rpm;
-rm webmin-1.680-1.noarch.rpm
+#wget http://prdownloads.sourceforge.net/webadmin/webmin-1.680-1.noarch.rpm
+#rpm -i webmin-1.680-1.noarch.rpm;
+#rm webmin-1.680-1.noarch.rpm
+yum -y install perl perl-Net-SSLeay openssl perl-IO-Tty 
+wget http://prdownloads.sourceforge.net/webadmin/webmin-1.760-1.noarch.rpm
+rpm -U webmin-1.760-1.noarch.rpm;
 service webmin restart
 chkconfig webmin on
 
 # downlaod script
-wget -O speedtest_cli.py "https://raw.github.com/cyber4rt/installer/master/speedtest_cli.py"
-wget -O bench-network.sh "https://raw.github.com/cyber4rt/installer/master/bench-network.sh"
-wget -O ps_mem.py "https://raw.github.com/cyber4rt/installer/master/ps_mem.py"
-wget -O limit.sh "https://raw.github.com/cyber4rt/installer/master/limit.sh"
-wget -O dropmon "https://raw.github.com/cyber4rt/installer/master/dropmon"
-wget -O userlogin.sh "https://raw.github.com/cyber4rt/installer/master/userlogin.sh"
-wget -O userexpired.sh "https://raw.github.com/cyber4rt/installer/master/userexpired.sh"
-wget -O userlimit.sh "https://raw.github.com/cyber4rt/installer/master/userlimit.sh"
+wget -O speedtest_cli.py "https://raw.githubusercontent.com/nauval2007/centos/master/speedtest_cli.py"
+wget -O bench-network.sh "https://raw.githubusercontent.com/nauval2007/centos/master/bench-network.sh"
+wget -O ps_mem.py "https://raw.githubusercontent.com/nauval2007/centos/master/ps_mem.py"
+wget -O limit.sh "https://raw.githubusercontent.com/nauval2007/centos/master/limit.sh"
+wget -O dropmon "https://raw.githubusercontent.com/nauval2007/centos/master/dropmon"
+wget -O userlogin.sh "https://raw.githubusercontent.com/nauval2007/centos/master/userlogin.sh"
+wget -O userexpired.sh "https://raw.githubusercontent.com/nauval2007/centos/master/userexpired.sh"
+wget -O userlimit.sh "https://raw.githubusercontent.com/nauval2007/centos/master/userlimit.sh"
+wget -O delete-log.sh "https://raw.githubusercontent.com/nauval2007/debian7os/master/delete-log.sh"
+wget -O find-large-files.sh "https://raw.githubusercontent.com/nauval2007/debian7os/master/find-large-files.sh"
+wget -O vpnmon.py "https://raw.githubusercontent.com/nauval2007/debian7os/master/vpnmon.py"
+
 echo "0 0 * * * root /root/userexpired.sh" > /etc/cron.d/userexpired
 echo "0 0 * * * root sleep 5 /root/userexpired.sh" > /etc/cron.d/userexpired
 echo "0 0 * * * root sleep 10 /root/userexpired.sh" > /etc/cron.d/userexpired
@@ -230,6 +237,12 @@ chmod +x userexpired.sh
 chmod +x userlimit.sh
 chmod +x limit.sh
 chmod +x dropmon
+chmod +x delete-log.sh
+chmod +x find-large-files.sh
+chmod +x vpnmon.py
+
+# php5-fpm service error fix for debian 8
+#echo "@reboot root /usr/sbin/php5-fpm -D" 
 
 rm -rf ~/.bash_history && history -c
 echo "unset HISTFILE" >> /etc/profile
@@ -275,7 +288,7 @@ echo "./loginview.sh"
 echo ""
 echo "Account Default (utk SSH dan VPN)"
 echo "---------------"
-echo "User     : c-mp3nk"
+echo "User     : shien"
 echo "Password : $PASS"
 echo ""
 echo "Fitur lain"

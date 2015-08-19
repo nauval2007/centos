@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# not modified yet
 # go to root
 cd
 
