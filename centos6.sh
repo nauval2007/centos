@@ -200,7 +200,7 @@ service webmin restart
 chkconfig webmin on
 
 # downlaod script
-wget -O speedtest_cli.py "https://raw.githubusercontent.com/nauval2007/centos/master/speedtest_cli.py"
+wget -O speedtest_cli.py "https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest_cli.py"
 wget -O bench-network.sh "https://raw.githubusercontent.com/nauval2007/centos/master/bench-network.sh"
 wget -O ps_mem.py "https://raw.githubusercontent.com/nauval2007/centos/master/ps_mem.py"
 wget -O limit.sh "https://raw.githubusercontent.com/nauval2007/centos/master/limit.sh"
