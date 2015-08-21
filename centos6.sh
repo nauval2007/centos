@@ -208,7 +208,7 @@ wget -O userexpired.sh "https://raw.githubusercontent.com/nauval2007/centos/mast
 wget -O userlimit.sh "https://raw.githubusercontent.com/nauval2007/centos/master/userlimit.sh"
 wget -O delete-log.sh "https://raw.githubusercontent.com/nauval2007/debian7os/master/delete-log.sh"
 wget -O find-large-files.sh "https://raw.githubusercontent.com/nauval2007/debian7os/master/find-large-files.sh"
-wget -O vpnmon.py "https://raw.githubusercontent.com/nauval2007/debian7os/master/vpnmon.py"
+wget -O vpnmon "https://raw.githubusercontent.com/nauval2007/debian7os/master/vpnmon"
 
 echo "0 0 * * * root /root/userexpired.sh" > /etc/cron.d/userexpired
 echo "0 0 * * * root sleep 5 /root/userexpired.sh" > /etc/cron.d/userexpired
@@ -259,7 +259,7 @@ chmod +x limit.sh
 chmod +x dropmon
 chmod +x delete-log.sh
 chmod +x find-large-files.sh
-chmod +x vpnmon.py
+chmod +x vpnmon
 
 # php5-fpm service error fix for debian 8
 #echo "@reboot root /usr/sbin/php5-fpm -D" 
