@@ -50,7 +50,7 @@ do
 		IP=`cat /var/log/secure | grep -i sshd | grep -i "Accepted password for" | grep "sshd\[$PID\]" | awk '{print $11}'`;
 		TIME=`cat /var/log/secure | grep -i sshd | grep -i "Accepted password for" |grep "sshd\[$PID\]" | awk '{print $1" "$2" "$3}'`;
         if [ $NUM -eq 1 ]; then
-                echo "$PID 	$USER 	$IP	$TIME";
+                echo "$PID 	$USER 		$IP	$TIME";
         fi
 done
 echo "---------------------------------------------------------------------";
