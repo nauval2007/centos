@@ -73,7 +73,7 @@ sed -i 's/www-data/nginx/g' /etc/nginx/nginx.conf
 mkdir -p /home/vps/public_html
 echo "<pre>ShienIkiru server</pre>" > /home/vps/public_html/index.html
 echo "<?php phpinfo(); ?>" > /home/vps/public_html/info.php
-rm /etc/nginx/conf.d/*
+rm -f /etc/nginx/conf.d/*
 wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/nauval2007/centos/master/vps.conf"
 sed -i 's/apache/nginx/g' /etc/php-fpm.d/www.conf
 chmod -R +rx /home/vps
@@ -164,7 +164,7 @@ chkconfig dropbear on
 cd /home/vps/public_html/
 wget http://www.sqweek.com/sqweek/files/vnstat_php_frontend-1.5.1.tar.gz
 tar xf vnstat_php_frontend-1.5.1.tar.gz
-rm vnstat_php_frontend-1.5.1.tar.gz
+rm -f vnstat_php_frontend-1.5.1.tar.gz
 mv vnstat_php_frontend-1.5.1 vnstat
 cd vnstat
 sed -i 's/eth0/venet0/g' config.php
@@ -190,7 +190,7 @@ chkconfig squid off
 cd
 #wget http://prdownloads.sourceforge.net/webadmin/webmin-1.680-1.noarch.rpm
 #rpm -i webmin-1.680-1.noarch.rpm;
-#rm webmin-1.680-1.noarch.rpm
+#rm -f webmin-1.680-1.noarch.rpm
 yum -y install perl perl-Net-SSLeay openssl perl-IO-Tty 
 wget http://prdownloads.sourceforge.net/webadmin/webmin-1.760-1.noarch.rpm
 rpm -U webmin-1.760-1.noarch.rpm;
@@ -234,7 +234,21 @@ echo "0 0 * * * root sleep 40 /root/userlimit.sh" > /etc/cron.d/userlimit
 echo "0 0 * * * root sleep 45 /root/userlimit.sh" > /etc/cron.d/userlimit
 echo "0 0 * * * root sleep 50 /root/userlimit.sh" > /etc/cron.d/userlimit
 echo "0 0 * * * root sleep 55 /root/userlimit.sh" > /etc/cron.d/userlimit
+# user limit for openssh
+echo "0 0 * * * root /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
+echo "0 0 * * * root sleep 5 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
+echo "0 0 * * * root sleep 10 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
+echo "0 0 * * * root sleep 15 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
+echo "0 0 * * * root sleep 20 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
+echo "0 0 * * * root sleep 25 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
+echo "0 0 * * * root sleep 30 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
+echo "0 0 * * * root sleep 35 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
+echo "0 0 * * * root sleep 40 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
+echo "0 0 * * * root sleep 45 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
+echo "0 0 * * * root sleep 50 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
+echo "0 0 * * * root sleep 55 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
 sed -i '$ i\screen -AmdS limit /root/limit.sh' /etc/rc.local
+echo "0 */6 * * * root /sbin/reboot" > /etc/cron.d/reboot
 chmod +x bench-network.sh
 chmod +x speedtest_cli.py
 chmod +x ps_mem.py
@@ -305,6 +319,7 @@ echo "MRTG     : http://$MYIP/mrtg/"
 echo "Timezone : Asia/Jakarta"
 echo "Fail2Ban : [on]"
 echo "IPv6     : [off]"
+echo "VPS AUTO REBOOT TIAP 6 JAM"
 echo ""
 echo "SILAHKAN REBOOT VPS ANDA !"
 echo ""

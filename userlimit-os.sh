@@ -1,5 +1,6 @@
 #!/bin/bash
-# Program untuk membatasi jumlah login user dropbear
+# Program untuk membatasi jumlah login user openssh
+# mod by Shien Ikiru
 PARAM=$1
 
 echo -n > /tmp/pid2
