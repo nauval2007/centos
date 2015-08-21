@@ -47,7 +47,7 @@ do
         #echo "check $PID";
 		NUM=`cat /var/log/secure | grep -i sshd | grep -i "Accepted password for" | grep "sshd\[$PID\]" | wc -l`;
 		USER=`cat /var/log/secure | grep -i sshd | grep -i "Accepted password for" | grep "sshd\[$PID\]" | awk '{print $9}'`;
-		IP=`cat /var/log/secure | grep -i sshd | grep -i "Accepted password for" | grep "sshd\[$PID\]" | awk '{print $11:$13}'`;
+		IP=`cat /var/log/secure | grep -i sshd | grep -i "Accepted password for" | grep "sshd\[$PID\]" | awk '{print $11":"$13}'`;
 		TIME=`cat /var/log/secure | grep -i sshd | grep -i "Accepted password for" |grep "sshd\[$PID\]" | awk '{print $1" "$2" "$3}'`;
         if [ $NUM -eq 1 ]; then
                 echo "$PID 	$USER 		$IP	$TIME";
