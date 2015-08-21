@@ -42,7 +42,7 @@ chkconfig nginx on
 chkconfig php-fpm on
 
 # install essential package
-yum -y install iftop htop nmap bc nethogs openvpn vnstat ngrep mtr git zsh mrtg unrar rsyslog rkhunter mrtg net-snmp net-snmp-utils expect nano bind-utils
+yum -y install iftop htop nmap bc nethogs openvpn vnstat ngrep mtr git zsh mrtg unrar rsyslog rkhunter mrtg net-snmp net-snmp-utils expect nano bind-utils multitail
 yum -y groupinstall 'Development Tools'
 yum -y install cmake
 
