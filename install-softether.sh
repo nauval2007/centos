@@ -9,7 +9,7 @@ cd vpnserver
 make
 cp -R * /usr/local/vpnserver/
 
-# wget -O /etc/init.d/vpnserver http://raw.github.com...
+# wget -O /etc/init.d/vpnserver https://raw.githubusercontent.com/nauval2007/centos/master/vpnserver
 # nano /etc/init.d/vpnserver
 
 
@@ -40,6 +40,15 @@ echo "esac" >> /etc/init.d/vpnserver
 echo "exit 0" >> /etc/init.d/vpnserver
 
 chmod 755 /etc/init.d/vpnserver
+# debian 7.8 fix, /var/lock link to /run/lock, but it seem deleted on reboot
+# create dir every reboot
+# echo '@reboot root mkdir /var/lock/subsys' >> /etc/crontab
+# unfortune this seem not fast enough
+echo '@reboot root mkdir /var/lock/subsys' > /etc/cron.d/vpnserver
+echo '@reboot root touch /var/lock/subsys/vpnserver' >> /etc/cron.d/vpnserver
+echo '@reboot root /usr/local/vpnserver/vpnserver start' >> /etc/cron.d/vpnserver 
+
+# mkdir /var/locked
 mkdir /var/lock/subsys
 
 # creating vpn_server.config
