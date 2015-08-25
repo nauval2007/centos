@@ -269,7 +269,7 @@ echo "* * * * * root /root/userlimit.sh" > /etc/cron.d/userlimit
 echo "* * * * * root /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
 sed -i '$ i\screen -AmdS limit /root/limit.sh' /etc/rc.local
 echo "0 */6 * * * root /sbin/reboot" > /etc/cron.d/reboot
-echo "* * * * * root /root/userloginhist.sh >> /root/userloginhist.txt" > /etc/cron.d/userloginhist
+echo "* */1 * * * root /root/userloginhist.sh >> /root/userloginhist.txt" > /etc/cron.d/userloginhist
 
 chmod +x bench-network.sh
 chmod +x speedtest_cli.py
