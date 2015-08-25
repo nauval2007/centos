@@ -8,15 +8,27 @@ case "$1" in
 start)
 $DAEMON start
 touch $LOCK
+sleep 3
+ifconfig tap_vpn 192.168.250.1
+iptables -t nat -A POSTROUTING -s 192.168.250.0/24 -o eth0 -j MASQUERADE
+service dhcpd restart
+service dnsmasq restart
 ;;
 stop)
+iptables -t nat -D POSTROUTING -s 192.168.250.0/24 -o eth0 -j MASQUERADE
 $DAEMON stop
 rm $LOCK
 ;;
 restart)
+iptables -t nat -D POSTROUTING -s 192.168.250.0/24 -o eth0 -j MASQUERADE
 $DAEMON stop
 sleep 3
 $DAEMON start
+sleep 3
+ifconfig tap_vpn 192.168.250.1
+iptables -t nat -A POSTROUTING -s 192.168.250.0/24 -o eth0 -j MASQUERADE
+service dhcpd restart
+service dnsmasq restart
 ;;
 *)
 echo "Usage: $0 {start|stop|restart}"

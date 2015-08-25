@@ -199,6 +199,42 @@ rpm -U webmin-1.760-1.noarch.rpm;
 service webmin restart
 chkconfig webmin on
 
+# install webmin module
+# cd /usr/share/webmin/module-archives/
+mkdir webmin-module
+cd webmin-module/
+# disk usage
+wget http://www.webmin.com/download/modules/disk-usage.wbm.gz
+# http://www.niemueller.de/webmin/modules/upload/
+# mrtg
+wget http://www.jla.homepage.t-online.de/pub/webmin/mrtg-0.2p3.wbm
+# squid (standard already installed)
+# http://www.webmin.com/webmin/download/modules/sarg.wbm.gz
+# squidguard
+wget http://perso.efrei.fr/~tabary/webmin/squidguard/squidguard.wbm.gz
+# squid realtime monitor
+wget http://sourceforge.net/projects/squidrealmon/files/sq-real-mon.wbm.gz
+# squid info
+http://swelltech.com/projects/webmin/modules/squidinfo-1.170.wbm
+# webalizer ( standard already installed )
+# http://www.webmin.com/webmin/download/modules/webalizer.wbm.gz
+# openvpn
+wget http://www.openit.it/downloads/OpenVPNadmin/openvpn-2.6.wbm.gz
+# nginx
+wget http://www.justindhoffman.com/sites/justindhoffman.com/files/nginx-0.08.wbm__0.gz
+
+#
+/usr/share/webmin/install-module.pl ./disk-usage.wbm.gz
+/usr/share/webmin/install-module.pl ./mrtg-0.2p3.wbm
+#/usr/share/webmin/install-module.pl ./squidguard.wbm.gz
+#/usr/share/webmin/install-module.pl ./squidguard.wbm.gz
+#/usr/share/webmin/install-module.pl ./sq-real-mon.wbm.gz
+#/usr/share/webmin/install-module.pl ./squidinfo-1.170.wbm
+/usr/share/webmin/install-module.pl ./openvpn-2.6.wbm.gz
+/usr/share/webmin/install-module.pl ./nginx-0.08.wbm__0.gz
+
+service webmin restart
+cd
 # downlaod script
 wget -O speedtest_cli.py "https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest_cli.py"
 wget -O bench-network.sh "https://raw.githubusercontent.com/nauval2007/centos/master/bench-network.sh"
@@ -208,49 +244,33 @@ wget -O dropmon "https://raw.githubusercontent.com/nauval2007/centos/master/drop
 wget -O userlogin.sh "https://raw.githubusercontent.com/nauval2007/centos/master/userlogin.sh"
 wget -O userexpired.sh "https://raw.githubusercontent.com/nauval2007/centos/master/userexpired.sh"
 wget -O userlimit.sh "https://raw.githubusercontent.com/nauval2007/centos/master/userlimit.sh"
-wget -O delete-log.sh "https://raw.githubusercontent.com/nauval2007/debian7os/master/delete-log.sh"
-wget -O find-large-files.sh "https://raw.githubusercontent.com/nauval2007/debian7os/master/find-large-files.sh"
-wget -O vpnmon "https://raw.githubusercontent.com/nauval2007/debian7os/master/vpnmon"
+wget -O delete-log.sh "https://raw.githubusercontent.com/nauval2007/centos/master/delete-log.sh"
+wget -O find-large-files.sh "https://raw.githubusercontent.com/nauval2007/centos/master/find-large-files.sh"
+wget -O vpnmon "https://raw.githubusercontent.com/nauval2007/centos/master/vpnmon"
+wget -O vpnmonhist https://raw.githubusercontent.com/nauval2007/centos/master/vpnmonhist"
+wget -O userloginhist.sh https://raw.githubusercontent.com/nauval2007/centos/master/userloginhist.sh"
+
 
 echo "0 0 * * * root /root/userexpired.sh" > /etc/cron.d/userexpired
-echo "0 0 * * * root sleep 5 /root/userexpired.sh" > /etc/cron.d/userexpired
-echo "0 0 * * * root sleep 10 /root/userexpired.sh" > /etc/cron.d/userexpired
-echo "0 0 * * * root sleep 15 /root/userexpired.sh" > /etc/cron.d/userexpired
-echo "0 0 * * * root sleep 20 /root/userexpired.sh" > /etc/cron.d/userexpired
-echo "0 0 * * * root sleep 25 /root/userexpired.sh" > /etc/cron.d/userexpired
-echo "0 0 * * * root sleep 30 /root/userexpired.sh" > /etc/cron.d/userexpired
-echo "0 0 * * * root sleep 35 /root/userexpired.sh" > /etc/cron.d/userexpired
-echo "0 0 * * * root sleep 40 /root/userexpired.sh" > /etc/cron.d/userexpired
-echo "0 0 * * * root sleep 45 /root/userexpired.sh" > /etc/cron.d/userexpired
-echo "0 0 * * * root sleep 50 /root/userexpired.sh" > /etc/cron.d/userexpired
-echo "0 0 * * * root sleep 55 /root/userexpired.sh" > /etc/cron.d/userexpired
-echo "0 0 * * * root /root/userlimit.sh" > /etc/cron.d/userlimit
-echo "0 0 * * * root sleep 5 /root/userlimit.sh" > /etc/cron.d/userlimit
-echo "0 0 * * * root sleep 10 /root/userlimit.sh" > /etc/cron.d/userlimit
-echo "0 0 * * * root sleep 15 /root/userlimit.sh" > /etc/cron.d/userlimit
-echo "0 0 * * * root sleep 20 /root/userlimit.sh" > /etc/cron.d/userlimit
-echo "0 0 * * * root sleep 25 /root/userlimit.sh" > /etc/cron.d/userlimit
-echo "0 0 * * * root sleep 30 /root/userlimit.sh" > /etc/cron.d/userlimit
-echo "0 0 * * * root sleep 35 /root/userlimit.sh" > /etc/cron.d/userlimit
-echo "0 0 * * * root sleep 40 /root/userlimit.sh" > /etc/cron.d/userlimit
-echo "0 0 * * * root sleep 45 /root/userlimit.sh" > /etc/cron.d/userlimit
-echo "0 0 * * * root sleep 50 /root/userlimit.sh" > /etc/cron.d/userlimit
-echo "0 0 * * * root sleep 55 /root/userlimit.sh" > /etc/cron.d/userlimit
+echo "0 0 * * * root sleep 5 /root/userexpired.sh" >> /etc/cron.d/userexpired
+echo "0 0 * * * root sleep 10 /root/userexpired.sh" >< /etc/cron.d/userexpired
+echo "0 0 * * * root sleep 15 /root/userexpired.sh" >> /etc/cron.d/userexpired
+echo "0 0 * * * root sleep 20 /root/userexpired.sh" >> /etc/cron.d/userexpired
+echo "0 0 * * * root sleep 25 /root/userexpired.sh" >> /etc/cron.d/userexpired
+echo "0 0 * * * root sleep 30 /root/userexpired.sh" >> /etc/cron.d/userexpired
+echo "0 0 * * * root sleep 35 /root/userexpired.sh" >> /etc/cron.d/userexpired
+echo "0 0 * * * root sleep 40 /root/userexpired.sh" >> /etc/cron.d/userexpired
+echo "0 0 * * * root sleep 45 /root/userexpired.sh" >> /etc/cron.d/userexpired
+echo "0 0 * * * root sleep 50 /root/userexpired.sh" >> /etc/cron.d/userexpired
+echo "0 0 * * * root sleep 55 /root/userexpired.sh" >> /etc/cron.d/userexpired
+# user limit for dropbear
+echo "* * * * * root /root/userlimit.sh" > /etc/cron.d/userlimit
 # user limit for openssh
-echo "0 0 * * * root /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
-echo "0 0 * * * root sleep 5 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
-echo "0 0 * * * root sleep 10 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
-echo "0 0 * * * root sleep 15 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
-echo "0 0 * * * root sleep 20 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
-echo "0 0 * * * root sleep 25 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
-echo "0 0 * * * root sleep 30 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
-echo "0 0 * * * root sleep 35 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
-echo "0 0 * * * root sleep 40 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
-echo "0 0 * * * root sleep 45 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
-echo "0 0 * * * root sleep 50 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
-echo "0 0 * * * root sleep 55 /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
+echo "* * * * * root /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
 sed -i '$ i\screen -AmdS limit /root/limit.sh' /etc/rc.local
 echo "0 */6 * * * root /sbin/reboot" > /etc/cron.d/reboot
+echo "* * * * * root /root/userloginhist.sh >> /root/userloginhist.txt" > /etc/cron.d/userloginhist
+
 chmod +x bench-network.sh
 chmod +x speedtest_cli.py
 chmod +x ps_mem.py
@@ -262,6 +282,8 @@ chmod +x dropmon
 chmod +x delete-log.sh
 chmod +x find-large-files.sh
 chmod +x vpnmon
+chmod +x userloginhist.sh
+chmod +x vpnmonhist
 
 # php5-fpm service error fix for debian 8
 #echo "@reboot root /usr/sbin/php5-fpm -D" 
