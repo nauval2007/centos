@@ -348,3 +348,5 @@ echo ""
 echo "SILAHKAN REBOOT VPS ANDA !"
 echo ""
 echo "==============================================="
+
+rm -f /root/centos6.sh
