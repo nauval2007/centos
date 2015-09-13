@@ -1,5 +1,7 @@
 #!/bin/bash
-
+# Centos install script
+# Script mod by Shien Ikiru 
+# <shienikiru@gmail.com> <nauval2007@gmail.com>
 # url https://raw.githubusercontent.com/nauval2007/centos/master/centos6.sh
 # go to root
 cd
@@ -152,12 +154,12 @@ chkconfig sshd on
 # install dropbear
 yum -y install dropbear
 # centos
-echo "OPTIONS=\"-b /etc/issue.net -p 109 -p 110 -p 443\"" > /etc/sysconfig/dropbear
+echo "OPTIONS=\"-b /etc/issue.net -p 109 -p 110 -p 443 -K 10 -I 60\"" > /etc/sysconfig/dropbear
 
 sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear
 sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=443/g' /etc/default/dropbear
-sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS=""/g' /etc/default/dropbear
-sed -i 's/DROPBEAR_BANNER=""/DROPBEAR_BANNER="\/etc\/issue.net"/g' /etc/default/dropbear
+sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-K 10 -I 60"/g' /etc/default/dropbear
+sed -i 's/DROPBEAR_BANNER=""/DROPBEAR_BANNER="\/etc\/issue.net "/g' /etc/default/dropbear
 echo "/bin/false" >> /etc/shells
 service dropbear restart
 chkconfig dropbear on
@@ -247,8 +249,9 @@ wget -O userlimit.sh "https://raw.githubusercontent.com/nauval2007/centos/master
 wget -O delete-log.sh "https://raw.githubusercontent.com/nauval2007/centos/master/delete-log.sh"
 wget -O find-large-files.sh "https://raw.githubusercontent.com/nauval2007/centos/master/find-large-files.sh"
 wget -O vpnmon "https://raw.githubusercontent.com/nauval2007/centos/master/vpnmon"
-wget -O vpnmonhist https://raw.githubusercontent.com/nauval2007/centos/master/vpnmonhist"
-wget -O userloginhist.sh https://raw.githubusercontent.com/nauval2007/centos/master/userloginhist.sh"
+wget -O vpnmonhist "https://raw.githubusercontent.com/nauval2007/centos/master/vpnmonhist"
+wget -O userloginhist.sh "https://raw.githubusercontent.com/nauval2007/centos/master/userloginhist.sh"
+wget -O runevery.sh "https://raw.githubusercontent.com/nauval2007/centos/master/runevery.sh"
 
 
 echo "0 0 * * * root /root/userexpired.sh" > /etc/cron.d/userexpired
@@ -264,9 +267,12 @@ echo "0 0 * * * root sleep 45 /root/userexpired.sh" >> /etc/cron.d/userexpired
 echo "0 0 * * * root sleep 50 /root/userexpired.sh" >> /etc/cron.d/userexpired
 echo "0 0 * * * root sleep 55 /root/userexpired.sh" >> /etc/cron.d/userexpired
 # user limit for dropbear
-echo "* * * * * root /root/userlimit.sh" > /etc/cron.d/userlimit
+echo "* * * * * root /root/userlimit.sh 2" > /etc/cron.d/userlimit
 # user limit for openssh
-echo "* * * * * root /root/userlimit-os.sh" > /etc/cron.d/userlimit-os
+echo "* * * * * root /root/userlimit-os.sh 2" > /etc/cron.d/userlimit-os
+
+echo "* * * * * root /root/runevery.sh 5" > /etc/cron.d/runevery
+
 sed -i '$ i\screen -AmdS limit /root/limit.sh' /etc/rc.local
 echo "0 */6 * * * root /sbin/reboot" > /etc/cron.d/reboot
 echo "* */1 * * * root /root/userloginhist.sh >> /root/userloginhist.txt" > /etc/cron.d/userloginhist
@@ -284,6 +290,7 @@ chmod +x find-large-files.sh
 chmod +x vpnmon
 chmod +x userloginhist.sh
 chmod +x vpnmonhist
+chmod +x runevery.sh
 
 # php5-fpm service error fix for debian 8
 #echo "@reboot root /usr/sbin/php5-fpm -D" 
@@ -317,18 +324,18 @@ echo "==============================================="
 echo ""
 echo "Service"
 echo "-------"
-echo "OpenVPN  : TCP 1194 (client config : http://$MYIP/client.tar)"
-echo "OpenSSH  : 22, 143"
-echo "Dropbear : 109, 110, 443"
-echo "Squid    : 8080 (limit to IP SSH)"
-echo "badvpn   : badvpn-udpgw port 7300"
+echo "■ OpenVPN  : TCP 1194 (client config : http://$MYIP/client.tar)"
+echo "■ OpenSSH  : 22, 143"
+echo "■ Dropbear : 109, 110, 443"
+echo "■ Squid    : 8080 (limit to IP SSH)"
+echo "■ badvpn   : badvpn-udpgw port 7300"
 echo ""
 echo "Script"
 echo "------"
-echo "./ps_mem.py"
-echo "./speedtest_cli.py --share"
-echo "./bench-network.sh"
-echo "./loginview.sh"
+echo "■ ./ps_mem.py"
+echo "■ ./speedtest_cli.py --share"
+echo "■ ./bench-network.sh"
+echo "■ ./loginview.sh"
 echo ""
 echo "Account Default (utk SSH dan VPN)"
 echo "---------------"
@@ -337,12 +344,14 @@ echo "Password : $PASS"
 echo ""
 echo "Fitur lain"
 echo "----------"
-echo "Webmin   : http://$MYIP:10000/"
-echo "vnstat   : http://$MYIP/vnstat/"
-echo "MRTG     : http://$MYIP/mrtg/"
-echo "Timezone : Asia/Jakarta"
-echo "Fail2Ban : [on]"
-echo "IPv6     : [off]"
+echo "■ Webmin   : http://$MYIP:10000/"
+echo "■ vnstat   : http://$MYIP/vnstat/"
+echo "■ MRTG     : http://$MYIP/mrtg/"
+echo "■ Timezone : Asia/Jakarta"
+echo "■ Fail2Ban : [on]"
+echo "■ IPv6     : [off]"
+echo ""
+echo "Script Modified by  Shien Ikiru <shienikiru@gmail.com>"
 echo "VPS AUTO REBOOT TIAP 6 JAM"
 echo ""
 echo "SILAHKAN REBOOT VPS ANDA !"
